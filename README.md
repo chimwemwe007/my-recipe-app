@@ -24,7 +24,7 @@
 
 # 📖 Food Reciepe <a name="about-project"></a>
 
-**My-Recipe Application** is a Single page application created with Ruby on Rails framework. In this project, the webapp renders the list of the existing blog posts and will be able to interact with the posts by liking posts and adding comments.
+**My Recipe Application** is a Single page application created with Ruby on Rails framework. In this project, the webapp renders the list of the existing blog posts and will be able to interact with the posts by liking posts and adding comments.
 
 ## 🛠 Built With <a name="built-with"></a>
 
