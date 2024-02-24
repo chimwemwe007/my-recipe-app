@@ -3,4 +3,8 @@ class UsersController < ApplicationController
     sign_out(current_user)
     redirect_to root_path, notice: 'Signed out successfully'
   end
+
+  def index
+    @users = User.all
+  end
 end

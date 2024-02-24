@@ -79,7 +79,7 @@ Clone this repository to your desired folder:
 
 ```
   cd my-folder
-  git clone git@github.com:https://github.com/the-faizmohammad/Food_reciepes
+  git clone git@github.com:https://github.com/chimwemwe007/my-recipe-app
 
 ```
 

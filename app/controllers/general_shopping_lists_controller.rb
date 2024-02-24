@@ -6,6 +6,7 @@ class GeneralShoppingListsController < ApplicationController
                               SUM(value) as total_value
                        FROM recipe_foods GROUP BY food_id) as subquery
              ON foods.id = subquery.food_id"
+            @users = User.all
     )
       .select('foods.name,
                      subquery.total_quantity,
