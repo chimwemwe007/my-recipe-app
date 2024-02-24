@@ -1,54 +1,56 @@
 class RecipeFoodsController < ApplicationController
-  before_action :set_recipe
+  before_action :set_recipe_food, only: %i[show edit destroy]
 
+  # GET /recipe_foods or /recipe_foods.json
+  def index
+    @recipe_foods = RecipeFood.all
+  end
+
+  # GET /recipe_foods/1 or /recipe_foods/1.json
+  def show; end
+
+  # GET /recipe_foods/new
   def new
-    @recipe_food = @recipe.recipe_foods.new
+    @recipe_food = RecipeFood.new
   end
 
+  # GET /recipe_foods/1/edit
+  def edit; end
+
+  # POST /recipe_foods or /recipe_foods.json
   def create
-    @recipe_food = @recipe.recipe_foods.find_or_initialize_by(food_id: recipe_food_params[:food_id])
-    @recipe_food.quantity = recipe_food_params[:quantity] # Set quantity
-    @recipe_food.calculate_value
-    if @recipe_food.save
-      redirect_to @recipe, notice: 'Food added successfully.'
-    else
-      render :new
+    @recipe_food = RecipeFood.new(recipe_food_params)
+
+    respond_to do |format|
+      if @recipe_food.save
+        format.html { redirect_to recipe_food_url(@recipe_food), notice: 'Recipe food was successfully created.' }
+        format.json { render :show, status: :created, location: @recipe_food }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @recipe_food.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def update
-    @recipe_food = @recipe.recipe_foods.find(params[:id])
-    @recipe_food.assign_attributes(recipe_food_params)
-
-    @recipe_food.calculate_value
-    if @recipe_food.save
-      redirect_to @recipe, notice: 'Food updated successfully.'
-    else
-      flash.now[:alert] = 'Failed to Update the Food item!'
-      render :edit
-    end
-  end
-
-  def edit
-    @recipe_food = @recipe.recipe_foods.find(params[:id])
-  end
-
+  # DELETE /recipe_foods/1 or /recipe_foods/1.json
   def destroy
-    @recipe_food = @recipe.recipe_foods.find(params[:id])
-    if @recipe_food.destroy
-      redirect_to @recipe, notice: 'Food removed successfully.'
-    else
-      redirect_to @recipe, alert: 'Failed to Remove Food Item!'
+    @recipe_food.destroy
+
+    respond_to do |format|
+      format.html { redirect_to recipe_foods_url, notice: 'Recipe food was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
   private
 
-  def set_recipe
-    @recipe = Recipe.includes(:recipe_foods, :food_name).find(params[:recipe_id])
+  # Use callbacks to share common setup or constraints between actions.
+  def set_recipe_food
+    @recipe_food = RecipeFood.find(params[:id])
   end
 
+  # Only allow a list of trusted parameters through.
   def recipe_food_params
-    params.require(:recipe_food).permit(:food_id, :quantity, :value)
+    params.require(:recipe_food).permit(:quantity, :recipe_id, :food_id)
   end
 end
